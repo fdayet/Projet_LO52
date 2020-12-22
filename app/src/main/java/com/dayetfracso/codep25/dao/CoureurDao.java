@@ -26,6 +26,10 @@ public interface CoureurDao {
     @Insert
     void insertRunner(Coureur... coureurs);
 
+
+    @Query("SELECT * FROM coureurs")
+    List<Coureur> getAllRunners();
+
     @Delete
     void delete(Coureur coureur);
 }

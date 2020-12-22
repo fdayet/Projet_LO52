@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.fragment.app.FragmentManager;
 
 import com.dayetfracso.codep25.R;
 import com.dayetfracso.codep25.dao.AppDatabase;
@@ -18,16 +18,13 @@ import com.dayetfracso.codep25.repository.Coureur;
 
 public class HomeFragment extends Fragment {
 
-    private HomeViewModel homeViewModel;
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
-        Button button = root.findViewById(R.id.saveRunnerButton);
-        button.setOnClickListener(new View.OnClickListener() {
+        Button saveRunnerbutton = root.findViewById(R.id.saveRunnerButton);
+        saveRunnerbutton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
                 EditText nameField = root.findViewById(R.id.nameInputField);
@@ -50,6 +47,19 @@ public class HomeFragment extends Fragment {
                 toast.show();
             }
         });
+
+        final FragmentManager fragmentManager = getFragmentManager();
+        final RunnersListFragment runnersListFragment = new RunnersListFragment();
+
+        Button showAllRunnersbutton = root.findViewById(R.id.showRunnersButton);
+        showAllRunnersbutton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v)
+            {
+                runnersListFragment.show(fragmentManager,"runners list fragment");
+            }
+        });
+
+
         return root;
     }
 }
