@@ -13,17 +13,17 @@ import androidx.annotation.Nullable;
 
 import com.dayetfracso.codep25.R;
 import com.dayetfracso.codep25.dao.AppDatabase;
-import com.dayetfracso.codep25.repository.Coureur;
+import com.dayetfracso.codep25.entity.Runner;
 
 import java.util.List;
 
-public class RunnersListAdapter extends ArrayAdapter<Coureur> {
+public class RunnersListAdapter extends ArrayAdapter<Runner> {
 
     Context context;
-    List<Coureur> runners;
+    List<Runner> runners;
     LayoutInflater inflater;
 
-    public RunnersListAdapter(@NonNull Context context, List<Coureur> runners) {
+    public RunnersListAdapter(@NonNull Context context, List<Runner> runners) {
         super(context, R.layout.runners_list_model,runners);
         this.context = context;
         this.runners = runners;
@@ -42,9 +42,9 @@ public class RunnersListAdapter extends ArrayAdapter<Coureur> {
         TextView levelTextView = (TextView) convertView.findViewById(R.id.runner_level);
         Button deleteRunnerButton = (Button) convertView.findViewById(R.id.delete_runner_button);
 
-        Coureur runner = runners.get(position);
-        nameTextView.setText(runner.getNomComplet());
-        levelTextView.setText(Integer.toString(runner.getNiveau()));
+        Runner runner = runners.get(position);
+        nameTextView.setText(runner.getFullName());
+        levelTextView.setText(Integer.toString(runner.getLevel()));
         View finalConvertView = convertView;
         deleteRunnerButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)

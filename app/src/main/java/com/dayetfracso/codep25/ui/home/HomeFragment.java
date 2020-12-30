@@ -14,7 +14,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.dayetfracso.codep25.R;
 import com.dayetfracso.codep25.dao.AppDatabase;
-import com.dayetfracso.codep25.repository.Coureur;
+import com.dayetfracso.codep25.entity.Runner;
 
 public class HomeFragment extends Fragment {
 
@@ -35,11 +35,11 @@ public class HomeFragment extends Fragment {
 
                 AppDatabase db = AppDatabase.getDatabase(getActivity().getApplicationContext());
 
-                Coureur coureur = new Coureur();
-                coureur.setNomComplet(name);
-                coureur.setNiveau(level);
+                Runner runner = new Runner();
+                runner.setFullName(name);
+                runner.setLevel(level);
 
-                db.coureurDao().insertRunner(coureur);
+                db.coureurDao().insertRunner(runner);
 
                 Toast toast = new Toast(getContext());
                 toast.setText("Profil du coureur sauvegardé!");

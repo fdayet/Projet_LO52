@@ -12,7 +12,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.dayetfracso.codep25.R;
 import com.dayetfracso.codep25.dao.AppDatabase;
-import com.dayetfracso.codep25.repository.Coureur;
+import com.dayetfracso.codep25.entity.Runner;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ public class RunnersListFragment extends DialogFragment {
 
         //  Getting runners data from the database
         AppDatabase db = AppDatabase.getDatabase(getActivity().getApplicationContext());
-        List<Coureur> runners = db.coureurDao().getAllRunners();
+        List<Runner> runners = db.coureurDao().getAllRunners();
 
         //  Populating the list view with the runners data
         RunnersListAdapter runnersListAdapter = new RunnersListAdapter(getActivity(),runners);

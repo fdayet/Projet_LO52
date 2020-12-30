@@ -5,12 +5,12 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.dayetfracso.codep25.repository.Coureur;
+import com.dayetfracso.codep25.entity.Runner;
 
 import java.util.List;
 
 @Dao
-public interface CoureurDao {
+public interface RunnerDao {
     //@Query("SELECT * FROM coureur")
     //List<Coureur> getAll();
 
@@ -21,15 +21,15 @@ public interface CoureurDao {
     //Coureur findByName(String first, String last);
 
     @Insert
-    void insertAll(Coureur coureur);
+    void insertAll(Runner runner);
 
     @Insert
-    void insertRunner(Coureur... coureurs);
+    void insertRunner(Runner... runners);
 
 
-    @Query("SELECT * FROM coureurs")
-    List<Coureur> getAllRunners();
+    @Query("SELECT * FROM runner")
+    List<Runner> getAllRunners();
 
     @Delete
-    void delete(Coureur coureur);
+    void delete(Runner runner);
 }

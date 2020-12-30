@@ -6,16 +6,16 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.dayetfracso.codep25.repository.Coureur;
+import com.dayetfracso.codep25.entity.Runner;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Coureur.class}, version = 1)
+@Database(entities = {Runner.class}, version = 1)
 
 public abstract class AppDatabase extends RoomDatabase {
 
-    public abstract CoureurDao coureurDao();
+    public abstract RunnerDao coureurDao();
 
     private static volatile AppDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
