@@ -27,6 +27,12 @@ public interface RunnerStatsDao {
     @Transaction
     @Query("SELECT * FROM runners_stats natural join runner where runner.teamIdFk = :teamId AND raceId = :raceId")
     public List<RunnerStats> getTeamRunnersStatsOnRace(long teamId, long raceId);
+
+
+    @Transaction
+    @Query("SELECT * FROM runners_stats natural join runner where runner.runnerId = :runnerId AND raceId = :raceId")
+    public RunnerStats getRunnerStatsOnRace(long runnerId, long raceId);
+
 //    @Transaction
 //    @Query("SELECT * FROM runners_stats")
 //    public List<RunnerStatsWithTeams> getRunnerStatsWithTeams();

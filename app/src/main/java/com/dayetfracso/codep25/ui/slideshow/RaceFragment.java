@@ -42,7 +42,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class SlideshowFragment extends Fragment {
+public class RaceFragment extends Fragment {
     private AppDatabase database;
     private List<TeamWithRunners> teamsWithRunners;
 

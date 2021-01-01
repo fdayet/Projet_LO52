@@ -1,9 +1,15 @@
 package com.dayetfracso.codep25.entity;
 
+import android.content.Context;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
+
+import com.dayetfracso.codep25.dao.AppDatabase;
+
+import java.util.List;
 
 import static androidx.room.ForeignKey.CASCADE;
 
@@ -50,4 +56,15 @@ public class Runner {
     public long getTeamIdFk() { return teamIdFk; }
 
     public void setTeamIdFk(long teamIdFk) { this.teamIdFk = teamIdFk; }
+
+    public RunnerStats getLapTimesForRace(Context context, long raceId){
+        AppDatabase database = AppDatabase.getDatabase(context);
+        return database.runnerStatsDao().getRunnerStatsOnRace(runnerId,raceId);
+    }
+
+//
+//    public List<LapTime> getLapTimesForRace(Context c,Race race){
+//        return new LapTimeDAO(c).getLapTimesOfRunnerForRace(getId(),race.getId());
+//    }
+
 }

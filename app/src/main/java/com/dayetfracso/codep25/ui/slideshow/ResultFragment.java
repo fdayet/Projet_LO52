@@ -88,7 +88,9 @@ public class ResultFragment extends Fragment {
                     Fragment teamResultFragment = new TeamResultFragment();
                     // consider using Java coding conventions (upper first char class names!!!)
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
+                    Bundle bundle = new Bundle();
+                    bundle.putLong("raceId", raceWithTeams.race.getRaceId());
+                    bundle.putLong("teamId", team.getTeamId());
                     // Replace whatever is in the fragment_container view with this fragment,
                     // and add the transaction to the back stack
                     transaction.replace(R.id.nav_host_fragment, teamResultFragment);

@@ -31,5 +31,9 @@ public interface TeamDao {
 
     @Transaction
     @Query("SELECT * FROM teams where teamId = :teamId")
-    public List<TeamWithRunners> getTeamWithRunners(long teamId);
+    public Team getTeam(long teamId);
+
+    @Transaction
+    @Query("SELECT * FROM teams where teamId = :teamId")
+    public TeamWithRunners getTeamWithRunners(long teamId);
 }
