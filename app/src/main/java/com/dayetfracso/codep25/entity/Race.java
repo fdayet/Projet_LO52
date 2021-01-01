@@ -1,13 +1,17 @@
 package com.dayetfracso.codep25.entity;
 
+import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.util.List;
 
+@Entity(tableName = "races")
 public class Race {
 	@PrimaryKey(autoGenerate = true)
 	private int raceId;
 	private int timing;
+	@Ignore
 	public List<Team> team;
 
 	public int getTiming() {

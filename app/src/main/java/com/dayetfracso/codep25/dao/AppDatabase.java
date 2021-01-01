@@ -6,16 +6,27 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import com.dayetfracso.codep25.entity.Race;
 import com.dayetfracso.codep25.entity.Runner;
+import com.dayetfracso.codep25.entity.RunnerStats;
+import com.dayetfracso.codep25.entity.Team;
+import com.dayetfracso.codep25.entity.TeamWithRunners;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Runner.class}, version = 1)
+@Database(entities = {
+        Runner.class,
+        Team.class,
+        Race.class,
+        RunnerStats.class
+}, version = 1)
 
 public abstract class AppDatabase extends RoomDatabase {
-
-    public abstract RunnerDao coureurDao();
+    public abstract RunnerDao runnerDao();
+    public abstract TeamDao teamDao();
+    public abstract RaceDao raceDao();
+    public abstract RunnerStatsDao runnerStatsDao();
 
     private static volatile AppDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;

@@ -7,4 +7,16 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <!--   color for the app bar and other primary UI elements -->
+    <color name="colorPrimary">#03a9f4</color>
+
+    <!--   a darker variant of the primary color, used for
+           the status bar (on Android 5.0+) and contextual app bars -->
+    <color name="colorPrimaryDark">#0073ad</color>
+
+    <!--   a secondary color for controls like checkboxes and text fields -->
+    <color name="colorAccent">#85ba5c</color>
+
+    <color name="colorProgressBg">#03a9f4</color>
+    <color name="colorProgressFg">#85ba5c</color>
 </resources>

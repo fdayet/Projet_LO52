@@ -50,7 +50,7 @@ public class RunnersListAdapter extends ArrayAdapter<Runner> {
             public void onClick(View v)
             {
                 AppDatabase db = AppDatabase.getDatabase(context);
-                db.coureurDao().delete(runner);
+                db.runnerDao().delete(runner);
                 runners.remove(runner);
                 notifyDataSetChanged();
             }

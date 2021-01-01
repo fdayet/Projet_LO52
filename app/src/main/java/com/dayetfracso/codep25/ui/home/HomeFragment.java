@@ -1,5 +1,6 @@
 package com.dayetfracso.codep25.ui.home;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,12 +10,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.dayetfracso.codep25.R;
 import com.dayetfracso.codep25.dao.AppDatabase;
 import com.dayetfracso.codep25.entity.Runner;
+import com.dayetfracso.codep25.entity.Team;
 
 public class HomeFragment extends Fragment {
 
@@ -39,7 +42,7 @@ public class HomeFragment extends Fragment {
                 runner.setFullName(name);
                 runner.setLevel(level);
 
-                db.coureurDao().insertRunner(runner);
+                db.runnerDao().insertRunner(runner);
 
                 Toast toast = new Toast(getContext());
                 toast.setText("Profil du coureur sauvegardé!");
@@ -59,6 +62,15 @@ public class HomeFragment extends Fragment {
             }
         });
 
+
+        Button createTheTeamsbutton = root.findViewById(R.id.createTeamsButton);
+        createTheTeamsbutton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            public void onClick(View v)
+            {
+                Team.createTeams(getContext());
+            }
+        });
 
         return root;
     }

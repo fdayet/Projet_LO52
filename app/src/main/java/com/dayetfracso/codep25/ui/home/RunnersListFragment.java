@@ -29,7 +29,7 @@ public class RunnersListFragment extends DialogFragment {
 
         //  Getting runners data from the database
         AppDatabase db = AppDatabase.getDatabase(getActivity().getApplicationContext());
-        List<Runner> runners = db.coureurDao().getAllRunners();
+        List<Runner> runners = db.runnerDao().getAllRunners();
 
         //  Populating the list view with the runners data
         RunnersListAdapter runnersListAdapter = new RunnersListAdapter(getActivity(),runners);
