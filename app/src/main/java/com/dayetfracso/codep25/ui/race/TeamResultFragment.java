@@ -1,4 +1,4 @@
-package com.dayetfracso.codep25.ui.slideshow;
+package com.dayetfracso.codep25.ui.race;
 
 import android.annotation.SuppressLint;
 import android.os.Build;

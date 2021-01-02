@@ -1,4 +1,4 @@
-package com.dayetfracso.codep25.ui.slideshow;
+package com.dayetfracso.codep25.ui.race;
 
 import android.os.Bundle;
 
@@ -44,7 +44,7 @@ public class ResultFragment extends Fragment {
 
         List<Team> teamsList = raceWithTeams.teams;
         LinearLayout linearLayoutContainer = root.findViewById(R.id.myLayout);
-        Collections.sort(teamsList, new TeamTimeComparator(getContext()));
+        Collections.sort(teamsList, new TeamTimeComparator(getContext(), raceWithTeams.race.getRaceId()));
         LinearLayout linearLayoutRowl = new LinearLayout(getContext());
         linearLayoutRowl.setOrientation(LinearLayout.HORIZONTAL);
         linearLayoutRowl.setGravity(Gravity.CENTER);

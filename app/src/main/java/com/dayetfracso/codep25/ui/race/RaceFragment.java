@@ -1,6 +1,5 @@
-package com.dayetfracso.codep25.ui.slideshow;
+package com.dayetfracso.codep25.ui.race;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -31,7 +30,6 @@ import com.dayetfracso.codep25.entity.Race;
 import com.dayetfracso.codep25.entity.RaceTeamCrossRef;
 import com.dayetfracso.codep25.entity.Runner;
 import com.dayetfracso.codep25.entity.RunnerStats;
-import com.dayetfracso.codep25.entity.Team;
 import com.dayetfracso.codep25.entity.TeamWithRunners;
 import com.dayetfracso.codep25.utils.SegmentedProgressDrawable;
 import com.dayetfracso.codep25.utils.Utils;
@@ -199,9 +197,6 @@ public class RaceFragment extends Fragment {
                 textViewRunnerLabel.setPadding(20,0,20,0);
                 // Add it to the linearLayoutSubSub
                 linearLayoutSubSub.addView(textViewRunnerLabel);
-
-                // Compute the number of laps each runner will have to run according to the team size
-                int nbLapsToRunForEachRunner =  teamsWithRunners.size() == 3 ? 2 : 3;
 
                 // Create a progressbar to display individual progression of each runners
                 final ProgressBar progressBarIndividual = createProgressBarIndividual(5);
