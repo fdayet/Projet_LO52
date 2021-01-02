@@ -64,6 +64,7 @@ public class ResultFragment extends Fragment {
         timel.setWidth(Utils.mapPXtoDP(getContext(),90));
         linearLayoutRowl.addView(timel);
         linearLayoutContainer.addView(linearLayoutRowl);
+
         Integer i = 1;
         for(final Team team : teamsList) {
             // Create a ROW linearLayout (Horizontal)
@@ -75,10 +76,10 @@ public class ResultFragment extends Fragment {
             TextView place = new TextView(getContext());
             place.setGravity(Gravity.CENTER);
             place.setWidth(Utils.mapPXtoDP(getContext(),90));
-            place.append(""+i);
+            place.append("" + i);
             linearLayoutRow.addView(place);
             Button triggerButton = new Button(getContext());
-            triggerButton.setText(" " + team.getName());
+            triggerButton.setText("Team " + team.getTeamId());
             triggerButton.setWidth(Utils.mapPXtoDP(getContext(),150));
             triggerButton.setOnClickListener(new View.OnClickListener() {
 

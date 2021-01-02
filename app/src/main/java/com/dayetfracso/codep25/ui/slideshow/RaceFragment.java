@@ -28,6 +28,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.dayetfracso.codep25.R;
 import com.dayetfracso.codep25.dao.AppDatabase;
 import com.dayetfracso.codep25.entity.Race;
+import com.dayetfracso.codep25.entity.RaceTeamCrossRef;
 import com.dayetfracso.codep25.entity.Runner;
 import com.dayetfracso.codep25.entity.RunnerStats;
 import com.dayetfracso.codep25.entity.Team;
@@ -108,6 +109,11 @@ public class RaceFragment extends Fragment {
         // Create a course and put its primary key here
         Long raceID = database.raceDao().insertRace(new Race());
         race = database.raceDao().getRace(raceID);
+
+        for(TeamWithRunners teamWithRunners : teamsWithRunners)
+        {
+            database.raceDao().insertRaceTeamCrossRef(new RaceTeamCrossRef(raceID,teamWithRunners.team.getTeamId()));
+        }
 
         // Set action bar title
 //        getSupportActionBar().setTitle(getResources().getString(R.string.race) + " \"" + race.getName() + "\"");

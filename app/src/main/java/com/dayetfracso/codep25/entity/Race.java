@@ -11,8 +11,6 @@ public class Race {
 	@PrimaryKey(autoGenerate = true)
 	private int raceId;
 	private int timing;
-	@Ignore
-	public List<Team> team;
 
 	public int getTiming() {
 		return timing;
@@ -28,13 +26,5 @@ public class Race {
 
 	public void setRaceId(int raceId) {
 		this.raceId = raceId;
-	}
-
-	public List<Team> getTeam() {
-		return team;
-	}
-
-	public void setTeam(List<Team> team) {
-		this.team = team;
 	}
 }

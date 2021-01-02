@@ -1,6 +1,7 @@
 package com.dayetfracso.codep25.entity;
 
 import androidx.room.Embedded;
+import androidx.room.Junction;
 import androidx.room.Relation;
 
 import java.util.List;
@@ -11,8 +12,8 @@ public class RaceWithTeams {
 
     @Relation(
             parentColumn = "raceId",
-            entityColumn = "raceId",
-            entity = Team.class
+            entityColumn = "teamId",
+            associateBy = @Junction(RaceTeamCrossRef.class)
     )
     public List<Team> teams;
 }

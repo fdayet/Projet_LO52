@@ -6,6 +6,7 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 
 import com.dayetfracso.codep25.entity.Race;
+import com.dayetfracso.codep25.entity.RaceTeamCrossRef;
 import com.dayetfracso.codep25.entity.RaceWithTeams;
 
 import java.util.List;
@@ -14,6 +15,9 @@ import java.util.List;
 public interface RaceDao {
     @Insert
     long insertRace(Race race);
+
+    @Insert
+    long insertRaceTeamCrossRef(RaceTeamCrossRef crossRef);
 
     @Transaction
     @Query("SELECT * FROM races")
@@ -24,7 +28,7 @@ public interface RaceDao {
     public void deleteAllRaces();
 
     @Transaction
-    @Query("SELECT * FROM races where raceId= :raceId")
+    @Query("SELECT * FROM races where raceId = :raceId")
     public Race getRace(long raceId);
 
     @Transaction

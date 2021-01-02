@@ -7,6 +7,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.dayetfracso.codep25.entity.Race;
+import com.dayetfracso.codep25.entity.RaceTeamCrossRef;
 import com.dayetfracso.codep25.entity.Runner;
 import com.dayetfracso.codep25.entity.RunnerStats;
 import com.dayetfracso.codep25.entity.Team;
@@ -19,7 +20,8 @@ import java.util.concurrent.Executors;
         Runner.class,
         Team.class,
         Race.class,
-        RunnerStats.class
+        RunnerStats.class,
+        RaceTeamCrossRef.class
 }, version = 1)
 
 public abstract class AppDatabase extends RoomDatabase {

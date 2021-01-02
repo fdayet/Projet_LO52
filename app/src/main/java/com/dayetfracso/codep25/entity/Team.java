@@ -20,13 +20,6 @@ public class Team {
     private int teamId;
     private String name;
 
-    @ForeignKey
-            (entity = Race.class,
-                    parentColumns = "raceId",
-                    childColumns = "raceId"
-            )
-    public long raceId;
-
     public int getTeamId() {
         return teamId;
     }
@@ -41,14 +34,6 @@ public class Team {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public long getRaceId() {
-        return raceId;
-    }
-
-    public void setRaceId(long raceId) {
-        this.raceId = raceId;
     }
 
     public List<RunnerStats> getTeamsStatsInRace(Context context, long raceId){
