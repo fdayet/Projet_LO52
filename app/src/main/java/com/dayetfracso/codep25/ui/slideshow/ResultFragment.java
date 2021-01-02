@@ -96,7 +96,7 @@ public class ResultFragment extends Fragment {
                     // and add the transaction to the back stack
                     transaction.replace(R.id.nav_host_fragment, teamResultFragment);
                     transaction.addToBackStack(null);
-
+                    teamResultFragment.setArguments(bundle);
                     // Commit the transaction
                     transaction.commit();
                 }
