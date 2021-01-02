@@ -26,15 +26,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Email button on the bottom right corner
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
         // Tiroir qui s'ouvre au dessus de l'activite (navigation inter-fragment)
@@ -42,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
+                R.id.nav_home, R.id.nav_race)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -63,20 +54,4 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
-
-  /*  public void onAddRunner(View view){
-        EditText nameField = view.findViewById(R.id.nameInputField);
-        EditText levelField = view.findViewById(R.id.levelInputField);
-
-        String name = nameField.getText().toString();
-        int level = Integer.parseInt(levelField.getText().toString());
-
-        AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
-
-        Coureur coureur = new Coureur();
-        coureur.setNomComplet(name);
-        coureur.setNiveau(level);
-
-        db.coureurDao().insertRunner(coureur);
-    }*/
 }

@@ -68,7 +68,19 @@ public class HomeFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.N)
             public void onClick(View v)
             {
-                Team.createTeams(getContext());
+                AppDatabase db = AppDatabase.getDatabase(getContext());
+                if(db.runnerDao().getAllRunners().size() % 3 == 0) {
+                    Team.createTeams(getContext());
+                    Toast toast = new Toast(getContext());
+                    toast.setText("Teams has been formed");
+                    toast.show();
+                }
+                else
+                {
+                    Toast toast = new Toast(getContext());
+                    toast.setText("Cannot form teams of 3 runners");
+                    toast.show();
+                }
             }
         });
 
