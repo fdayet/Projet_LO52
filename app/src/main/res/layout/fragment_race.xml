@@ -28,7 +28,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Start" />
+            android:text="Start"
+            ads:backgroundTint="#FF9800" />
     </LinearLayout>
     <ScrollView
         android:layout_below="@+id/button_layout"
