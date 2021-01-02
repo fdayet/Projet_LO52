@@ -1,5 +1,6 @@
 package com.dayetfracso.codep25.ui.slideshow;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -30,6 +31,7 @@ import java.util.List;
 public class TeamResultFragment extends Fragment {
     AppDatabase database;
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -82,16 +84,15 @@ public class TeamResultFragment extends Fragment {
 
             // Grid for results
             GridLayout grid = new GridLayout(getContext());
-            grid.setColumnCount(7);
+            grid.setColumnCount(6);
 
             // Set headers
-//            grid.addView(getTextViewHeaderCell(getResources().getString(R.string.Lap)));
-//            grid.addView(getTextViewHeaderCell(getResources().getString(R.string.Sprint) + " 1"));
-//            grid.addView(getTextViewHeaderCell(getResources().getString(R.string.Fract_) + " 1"));
-//            grid.addView(getTextViewHeaderCell(getResources().getString(R.string.Pit_stop)));
-//            grid.addView(getTextViewHeaderCell(getResources().getString(R.string.Sprint) + " 2"));
-//            grid.addView(getTextViewHeaderCell(getResources().getString(R.string.Fract_) + " 2"));
-//            grid.addView(getTextViewHeaderCell(getResources().getString(R.string.Total)));
+            grid.addView(getTextViewHeaderCell(getResources().getString(R.string.Sprint) + " 1"));
+            grid.addView(getTextViewHeaderCell(getResources().getString(R.string.Fract_) + " 1"));
+            grid.addView(getTextViewHeaderCell(getResources().getString(R.string.Pit_stop)));
+            grid.addView(getTextViewHeaderCell(getResources().getString(R.string.Sprint) + " 2"));
+            grid.addView(getTextViewHeaderCell(getResources().getString(R.string.Fract_) + " 2"));
+            grid.addView(getTextViewHeaderCell(getResources().getString(R.string.Total)));
 
             // Arrays to compute averages
             List<Long> listTimeSprint1 = new ArrayList<>();
@@ -100,129 +101,142 @@ public class TeamResultFragment extends Fragment {
             List<Long> listTimeSprint2 = new ArrayList<>();
             List<Long> listTimeFractionned2 = new ArrayList<>();
             List<Long> listTimeGlobal = new ArrayList<>();
+
+            //  -----------------------------------------------------
+
+            
+            RunnerStats runnerStats = database.runnerStatsDao().getRunnerStats(runner.getRunnerId());
+
+            TextView tv;
+
+            // Sprint 1
+            listTimeSprint1.add(runnerStats.getSprint1());
+            tv = getTextViewNormalCell(Utils.formatTime(runnerStats.getSprint1()));
+            if (runnerStats.getSprint1() < bestSprint1) {
+                bestSprint1 = runnerStats.getSprint1();
+                tvBestSprint1 = tv;
+            }
+            grid.addView(tv);
+
+            // Fractionned 1
+            listTimeFractionned1.add(runnerStats.getObstacle1());
+            tv = getTextViewNormalCell(Utils.formatTime(runnerStats.getObstacle1()));
+            if (runnerStats.getObstacle1() < bestFractionned1) {
+                bestFractionned1 = runnerStats.getObstacle1();
+                tvBestFractionned1 = tv;
+            }
+            grid.addView(tv);
+
+            // Pit stop
+            listTimePitStop.add(runnerStats.getPitstop());
+            tv = getTextViewNormalCell(Utils.formatTime(runnerStats.getPitstop()));
+            if (runnerStats.getPitstop() < bestPitStop) {
+                bestPitStop = runnerStats.getPitstop();
+                tvBestPitStop = tv;
+            }
+            grid.addView(tv);
+
+            // Sprint 2
+            listTimeSprint2.add(runnerStats.getSprint2());
+            tv = getTextViewNormalCell(Utils.formatTime(runnerStats.getSprint2()));
+            if (runnerStats.getSprint2() < bestSprint2) {
+                bestSprint2 = runnerStats.getSprint2();
+                tvBestSprint2 = tv;
+            }
+            grid.addView(tv);
+
+            // Fractionned 2
+            listTimeFractionned2.add(runnerStats.getObstacle2());
+            tv = getTextViewNormalCell(Utils.formatTime(runnerStats.getObstacle2()));
+            if (runnerStats.getObstacle2() < bestFractionned2) {
+                bestFractionned2 = runnerStats.getObstacle2();
+                tvBestFractionned2 = tv;
+            }
+            grid.addView(tv);
+
+            // Global
+            listTimeGlobal.add(runnerStats.getGlobalTime());
+            tv = getTextViewNormalCell(Utils.formatTime(runnerStats.getGlobalTime()));
+            if (runnerStats.getGlobalTime() < bestGlobal) {
+                bestGlobal = runnerStats.getGlobalTime();
+                tvBestGlobal = tv;
+            }
+            grid.addView(tv);
+
+
+            //-------------------------------------------------------------------------------------------
+
+            if (runner.getLapTimesForRace(getContext(), race.getRaceId()) != null) {
+                // Average
+                grid.addView(getTextViewNormalCell(getResources().getString(R.string.Avg_)));
+
+                // Average Sprint 1
+                grid.addView(getTextViewNormalCell(Utils.formatTime(Utils.average(listTimeSprint1))));
+
+                // Average Fractionned 1
+                grid.addView(getTextViewNormalCell(Utils.formatTime(Utils.average(listTimeFractionned1))));
+
+                // Average Pit stop
+                grid.addView(getTextViewNormalCell(Utils.formatTime(Utils.average(listTimePitStop))));
+
+                // Average Sprint 2
+                grid.addView(getTextViewNormalCell(Utils.formatTime(Utils.average(listTimeSprint2))));
+
+                // Average Fractionned 2
+                grid.addView(getTextViewNormalCell(Utils.formatTime(Utils.average(listTimeFractionned2))));
+
+                // Average Global
+                grid.addView(getTextViewNormalCell(Utils.formatTime(Utils.average(listTimeGlobal))));
+            }
+            bigContainer.addView(grid);
+
+
+            if (tvBestSprint1 != null) tvBestSprint1.setTextColor(ContextCompat.getColor(
+
+                    getContext(), R.color.colorAccent));
+            if (tvBestFractionned1 != null) tvBestFractionned1.setTextColor(ContextCompat.getColor(
+
+                    getContext(), R.color.colorAccent));
+            if (tvBestPitStop != null) tvBestPitStop.setTextColor(ContextCompat.getColor(
+
+                    getContext(), R.color.colorAccent));
+            if (tvBestSprint2 != null) tvBestSprint2.setTextColor(ContextCompat.getColor(
+
+                    getContext(), R.color.colorAccent));
+            if (tvBestFractionned2 != null) tvBestFractionned2.setTextColor(ContextCompat.getColor(
+
+                    getContext(), R.color.colorAccent));
+            if (tvBestGlobal != null) tvBestGlobal.setTextColor(ContextCompat.getColor(
+
+                    getContext(), R.color.colorAccent));
         }
-        return root; // to remove
+
+        return root;
     }
 
-//            for (final RunnerStats lapTime : runner.getLapTimesForRace(getContext(), race.getRaceId())) {
-//
-//                // Lap number
-//                grid.addView(getTextViewNormalCell(Integer.toString(lapTime.getLapNumber())));
-//
-//                TextView tv;
-//
-//                // Sprint 1
-//                listTimeSprint1.add(lapTime.getTimeSprint1());
-//                tv=getTextViewNormalCell(Utils.formatTime(lapTime.getTimeSprint1()));
-//                if(lapTime.getTimeSprint1() < bestSprint1) {
-//                    bestSprint1=lapTime.getTimeSprint1();
-//                    tvBestSprint1=tv;
-//                }
-//                grid.addView(tv);
-//
-//                // Fractionned 1
-//                listTimeFractionned1.add(lapTime.getTimeFractionated1());
-//                tv=getTextViewNormalCell(Utils.formatTime(lapTime.getTimeFractionated1()));
-//                if(lapTime.getTimeFractionated1() < bestFractionned1){
-//                    bestFractionned1=lapTime.getTimeFractionated1();
-//                    tvBestFractionned1=tv;
-//                }
-//                grid.addView(tv);
-//
-//                // Pit stop
-//                listTimePitStop.add(lapTime.getTimePitStop());
-//                tv=getTextViewNormalCell(Utils.formatTime(lapTime.getTimePitStop()));
-//                if(lapTime.getTimePitStop() < bestPitStop) {
-//                    bestPitStop=lapTime.getTimePitStop();
-//                    tvBestPitStop=tv;
-//                }
-//                grid.addView(tv);
-//
-//                // Sprint 2
-//                listTimeSprint2.add(lapTime.getTimeSprint2());
-//                tv=getTextViewNormalCell(Utils.formatTime(lapTime.getTimeSprint2()));
-//                if(lapTime.getTimeSprint2() < bestSprint2) {
-//                    bestSprint2=lapTime.getTimeSprint2();
-//                    tvBestSprint2=tv;
-//                }
-//                grid.addView(tv);
-//
-//                // Fractionned 2
-//                listTimeFractionned2.add(lapTime.getTimeFractionated2());
-//                tv=getTextViewNormalCell(Utils.formatTime(lapTime.getTimeFractionated2()));
-//                if(lapTime.getTimeFractionated2() < bestFractionned2){
-//                    bestFractionned2=lapTime.getTimeFractionated2();
-//                    tvBestFractionned2=tv;
-//                }
-//                grid.addView(tv);
-//
-//                // Global
-//                listTimeGlobal.add(lapTime.getGlobalTime());
-//                tv=getTextViewNormalCell(Utils.formatTime(lapTime.getGlobalTime()));
-//                if(lapTime.getGlobalTime() < bestGlobal){
-//                    bestGlobal=lapTime.getGlobalTime();
-//                    tvBestGlobal=tv;
-//                }
-//                grid.addView(tv);
-//            }
-//            if(runner.getLapTimesForRace(getContext(), race.getRaceId()).size()>0){
-//                // Average
-//                grid.addView(getTextViewNormalCell(getResources().getString(R.string.Avg_)));
-//
-//                // Average Sprint 1
-//                grid.addView(getTextViewNormalCell(Utils.formatTime(Utils.average(listTimeSprint1))));
-//
-//                // Average Fractionned 1
-//                grid.addView(getTextViewNormalCell(Utils.formatTime(Utils.average(listTimeFractionned1))));
-//
-//                // Average Pit stop
-//                grid.addView(getTextViewNormalCell(Utils.formatTime(Utils.average(listTimePitStop))));
-//
-//                // Average Sprint 2
-//                grid.addView(getTextViewNormalCell(Utils.formatTime(Utils.average(listTimeSprint2))));
-//
-//                // Average Fractionned 2
-//                grid.addView(getTextViewNormalCell(Utils.formatTime(Utils.average(listTimeFractionned2))));
-//
-//                // Average Global
-//                grid.addView(getTextViewNormalCell(Utils.formatTime(Utils.average(listTimeGlobal))));
-//            }
-//            bigContainer.addView(grid);
-//        }
-//
-//        if(tvBestSprint1 != null)tvBestSprint1.setTextColor(ContextCompat.getColor(getContext(),R.color.colorAccent));
-//        if(tvBestFractionned1!= null)tvBestFractionned1.setTextColor(ContextCompat.getColor(getContext(),R.color.colorAccent));
-//        if(tvBestPitStop != null)tvBestPitStop.setTextColor(ContextCompat.getColor(getContext(),R.color.colorAccent));
-//        if(tvBestSprint2 != null)tvBestSprint2.setTextColor(ContextCompat.getColor(getContext(),R.color.colorAccent));
-//        if(tvBestFractionned2 != null)tvBestFractionned2.setTextColor(ContextCompat.getColor(getContext(),R.color.colorAccent));
-//        if(tvBestGlobal != null)tvBestGlobal.setTextColor(ContextCompat.getColor(getContext(),R.color.colorAccent));
-//
-//        return root;
-//    }
-//
-//    TextView getTextViewHeaderCell(String text)
-//    {
-//        TextView tv = new TextView(getContext());
-//        tv.setText(text);
-//        tv.setPadding(5,1,5,1);
-//        tv.setBackgroundResource(R.layout.grid_items_border_with_bg);
-//        tv.setGravity(Gravity.CENTER);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            tv.setLayoutParams(new GridLayout.LayoutParams(GridLayout.spec(GridLayout.UNDEFINED, 1f), GridLayout.spec(GridLayout.UNDEFINED, 1f)));
-//        }
-//        return tv;
-//    }
-//
-//    TextView getTextViewNormalCell(String text)
-//    {
-//        TextView tv = new TextView(getContext());
-//        tv.setText(text);
-//        tv.setPadding(5,1,5,1);
-//        tv.setBackgroundResource(R.layout.grid_items_border);
-//        tv.setGravity(Gravity.CENTER);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            tv.setLayoutParams(new GridLayout.LayoutParams(GridLayout.spec(GridLayout.UNDEFINED, 1f), GridLayout.spec(GridLayout.UNDEFINED, 1f)));
-//        }
-//        return tv;
-//    }
+    @SuppressLint("ResourceType")
+    TextView getTextViewHeaderCell(String text) {
+        TextView tv = new TextView(getContext());
+        tv.setText(text);
+        tv.setPadding(5, 1, 5, 1);
+        tv.setBackgroundResource(R.layout.grid_items_border_with_bg);
+        tv.setGravity(Gravity.CENTER);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            tv.setLayoutParams(new GridLayout.LayoutParams(GridLayout.spec(GridLayout.UNDEFINED, 1f), GridLayout.spec(GridLayout.UNDEFINED, 1f)));
+        }
+        return tv;
+    }
+
+    @SuppressLint("ResourceType")
+    TextView getTextViewNormalCell(String text) {
+        TextView tv = new TextView(getContext());
+        tv.setText(text);
+        tv.setPadding(5, 1, 5, 1);
+        tv.setBackgroundResource(R.layout.grid_items_border);
+        tv.setGravity(Gravity.CENTER);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            tv.setLayoutParams(new GridLayout.LayoutParams(GridLayout.spec(GridLayout.UNDEFINED, 1f), GridLayout.spec(GridLayout.UNDEFINED, 1f)));
+        }
+        return tv;
+    }
 }
