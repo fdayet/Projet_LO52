@@ -149,7 +149,7 @@ public class RaceFragment extends Fragment {
 
             // Create button
             Button teamTriggerButton = new Button(getContext());
-            teamTriggerButton.setText(Integer.toString(teamWithRunners.team.getTeamId()));
+            teamTriggerButton.setText("Team " + Integer.toString(teamWithRunners.team.getTeamId()));
             teamTriggerButton.setEnabled(false);
             teamTriggerButton.setWidth(Utils.mapPXtoDP(getContext(),100));
 
@@ -214,6 +214,7 @@ public class RaceFragment extends Fragment {
 
                 RunnerStats runnerStats = new RunnerStats();
                 runnerStats.setRunnerId(runner.getRunnerId());
+                runnerStats.setRaceId(raceID);
                 runnerStatsList.add(runnerStats);
             }
 
