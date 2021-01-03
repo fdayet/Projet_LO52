@@ -95,7 +95,7 @@ public class ResultFragment extends Fragment {
                     // Replace whatever is in the fragment_container view with this fragment,
                     // and add the transaction to the back stack
                     transaction.replace(R.id.nav_host_fragment, teamResultFragment);
-                    transaction.addToBackStack(null);
+                    transaction.addToBackStack("race results");
                     teamResultFragment.setArguments(bundle);
                     // Commit the transaction
                     transaction.commit();

@@ -168,12 +168,12 @@ public class RaceFragment extends Fragment {
             frameLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
             teamPlayerLinearLayout.addView(frameLayout);
 
-            // Create Progress bar to display current lap progression
-            final ProgressBar progressBarCurrentLap = createProgressBarCurrentLap();
+            // Create Progress bar to display current progression ("Sprint", "Obstacle 1", "Pit Stop", "Sprint", "Obstacle 2")
+            final ProgressBar racePhaseProgressBar = createProgressBarCurrentLap();
             // Create a grid layout holding the legend
             GridLayout gridLayout = createGridLegend();
 
-            frameLayout.addView(progressBarCurrentLap);
+            frameLayout.addView(racePhaseProgressBar);
             frameLayout.addView(gridLayout);
 
             // Create a SUB SUB linearLayout (Horizontal)
@@ -186,7 +186,7 @@ public class RaceFragment extends Fragment {
             teamPlayerLinearLayout.addView(linearLayoutSubSub);
 
 
-            final List<ProgressBar> listProgressBarIndividual = new ArrayList<ProgressBar>();
+            final List<ProgressBar> runnersProgressBarsList = new ArrayList<ProgressBar>();
             final List<RunnerStats> runnerStatsList = new ArrayList<>();
 
             for(Runner runner : teamWithRunners.runners)
@@ -199,13 +199,13 @@ public class RaceFragment extends Fragment {
                 linearLayoutSubSub.addView(textViewRunnerLabel);
 
                 // Create a progressbar to display individual progression of each runners
-                final ProgressBar progressBarIndividual = createProgressBarIndividual(5);
+                final ProgressBar runnerProgressBar = createRunnerProgressBar(5);
 
                 // Add it to the linearLayoutSubSub
-                linearLayoutSubSub.addView(progressBarIndividual);
+                linearLayoutSubSub.addView(runnerProgressBar);
 
                 // Add it to a list
-                listProgressBarIndividual.add(progressBarIndividual);
+                runnersProgressBarsList.add(runnerProgressBar);
 
                 RunnerStats runnerStats = new RunnerStats();
                 runnerStats.setRunnerId(runner.getRunnerId());
@@ -222,26 +222,31 @@ public class RaceFragment extends Fragment {
 
                     List<Integer> listProgressOnEachBars = new ArrayList<Integer>();
 
-                    int lapNumber = 1;
-                    for(ProgressBar p : listProgressBarIndividual)
+                    int currentRunnerIndex = 0;
+                    for(ProgressBar p : runnersProgressBarsList)
                     {
                         int individualProgress = p.getProgress();
-                        lapNumber += individualProgress;
-                        listProgressOnEachBars.add(individualProgress);
+                        if(individualProgress == 5) {
+                            currentRunnerIndex++;
+                            continue;
+                        }
+                        else
+                            break;
+
                     }
 
-                    int lapProgress = progressBarCurrentLap.getProgress() + 1;
+                    int lapProgress = racePhaseProgressBar.getProgress() + 1;
                     if(lapProgress > 5)
-                        lapProgress=1;
+                        lapProgress = 1;
 
                     // Get the index of the minimum value the most on the left
-                    int runnerIndex = listProgressOnEachBars.indexOf(Collections.min(listProgressOnEachBars));
+//                    int runnerIndex = listProgressOnEachBars.indexOf(Collections.min(listProgressOnEachBars));
 
                     // We can get the current lap
-                    RunnerStats runnerStats = runnerStatsList.get(runnerIndex);
+                    RunnerStats runnerStats = runnerStatsList.get(currentRunnerIndex);
 
                     // And the individual progressbar
-                    ProgressBar progressBarIndividual = listProgressBarIndividual.get(runnerIndex);
+                    ProgressBar currentRunnerProgressBar = runnersProgressBarsList.get(currentRunnerIndex);
 
                     // Get the elapsed time
                     long elapsedMillis = SystemClock.elapsedRealtime() - chronometer.getBase() - previousTime.get();
@@ -250,33 +255,36 @@ public class RaceFragment extends Fragment {
                     {
                         case 1:
                             runnerStats.setSprint1(elapsedMillis);
+                            currentRunnerProgressBar.setProgress(currentRunnerProgressBar.getProgress()+1);
                             break;
                         case 2:
                             runnerStats.setObstacle1(elapsedMillis);
+                            currentRunnerProgressBar.setProgress(currentRunnerProgressBar.getProgress()+1);
                             break;
                         case 3:
                             runnerStats.setPitstop(elapsedMillis);
+                            currentRunnerProgressBar.setProgress(currentRunnerProgressBar.getProgress()+1);
                             break;
                         case 4:
                             runnerStats.setSprint2(elapsedMillis);
+                            currentRunnerProgressBar.setProgress(currentRunnerProgressBar.getProgress()+1);
                             break;
                         case 5:
                             runnerStats.setObstacle2(elapsedMillis);
-//                            runnerStats.setLapNumber(lapNumber);
 
                             // Add lap time to database
                             database.runnerStatsDao().insertRunnerStats(runnerStats);
 
                             // Increment individual progress
-                            progressBarIndividual.setProgress(progressBarIndividual.getProgress()+1);
+                            currentRunnerProgressBar.setProgress(currentRunnerProgressBar.getProgress()+1);
                             break;
                     }
 
                     // Increment current lap progression on the progress bar
-                    progressBarCurrentLap.setProgress(lapProgress);
+                    racePhaseProgressBar.setProgress(lapProgress);
 
                     // If all the runners of the time have finished
-                    if(lapNumber==6 && lapProgress==5)
+                    if(currentRunnerIndex==2 && lapProgress==5)
                     {
                         // Disable the button of the team
                         listTriggerButtons.get(teamsListWithRunners.indexOf(teamWithRunners)).setEnabled(false);
@@ -305,14 +313,14 @@ public class RaceFragment extends Fragment {
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack
         transaction.replace(R.id.nav_host_fragment, resultFragment);
-        transaction.addToBackStack(null);
+        transaction.addToBackStack("race");
 
         // Commit the transaction
         transaction.commit();
     }
 
-    public ProgressBar createProgressBarIndividual(int nbOfSegments) {
-        ProgressBar progressBarIndividual=new ProgressBar(getContext(),null,android.R.attr.progressBarStyleHorizontal);
+    public ProgressBar createRunnerProgressBar(int nbOfSegments) {
+        ProgressBar progressBarIndividual = new ProgressBar(getContext(),null,android.R.attr.progressBarStyleHorizontal);
         progressBarIndividual.setProgressDrawable(new SegmentedProgressDrawable(ContextCompat.getColor(getContext(),R.color.colorProgressFg),ContextCompat.getColor(getContext(),R.color.colorProgressBg), nbOfSegments));
         progressBarIndividual.setMax(nbOfSegments);
         progressBarIndividual.setProgress(0);
@@ -323,7 +331,7 @@ public class RaceFragment extends Fragment {
     }
 
     public ProgressBar createProgressBarCurrentLap() {
-        ProgressBar progressBarCurrentLap=new ProgressBar(getContext(),null,android.R.attr.progressBarStyleHorizontal);
+        ProgressBar progressBarCurrentLap = new ProgressBar(getContext(),null,android.R.attr.progressBarStyleHorizontal);
         progressBarCurrentLap.setProgressDrawable(new SegmentedProgressDrawable(ContextCompat.getColor(getContext(),R.color.colorProgressFg),ContextCompat.getColor(getContext(),R.color.colorProgressBg)));
         progressBarCurrentLap.setMax(5);
         progressBarCurrentLap.setProgress(0);
@@ -334,14 +342,14 @@ public class RaceFragment extends Fragment {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     public GridLayout createGridLegend(){
-        // Create a grid layout to hold the 5 labels (Sprint, Fractionned, Pit Stop, Sprint, Fractionned)
+        // Create a grid layout to hold the 5 labels ("Sprint", "Obstacle 1", "Pit Stop", "Sprint", "Obstacle 2")
         GridLayout gridLayout = new GridLayout(getContext());
         gridLayout.setColumnCount(5);
         gridLayout.setRowCount(1);
         gridLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
         gridLayout.setForegroundGravity(Gravity.CENTER);
 
-        List<String> list = Arrays.asList("Sprint", "Frac.", "Pit Stop", "Sprint", "Frac.");
+        List<String> list = Arrays.asList("Sprint", "Obstacle 1", "Pit Stop", "Sprint", "Obstacle 2");
         for(String s : list)
         {
             TextView textViewLegend = new TextView(getContext());
